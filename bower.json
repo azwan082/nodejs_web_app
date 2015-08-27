@@ -1,0 +1,22 @@
+{
+  "name": "nodejs_web_app",
+  "version": "0.0.0",
+  "private": true,
+  "authors": [
+    "Azwan <azwan082@gmail.com>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}
