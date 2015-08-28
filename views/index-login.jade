@@ -1,7 +1,9 @@
 extends _layout
 
 block content
-  h1 Login page
-  a(href='/register') Register
-  br
-  a(href='/settings') Settings
+  include _navbar
+  div.container
+    h1 Login page
+    a(href='/register') Register
+    br
+    a(href='/settings') Settings

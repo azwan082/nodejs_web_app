@@ -27,6 +27,12 @@ app.use(favicon(path.join(__dirname, 'public', 'dist', 'img', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public', 'dist')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
+// TODO session user
+app.use(function(req, res, next) {
+  res.locals.user = {};
+  next();
+});
+
 // routes
 app.use('/', index);
 

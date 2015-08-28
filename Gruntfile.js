@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         command: 'mongod',
         options: {
           async: true,
-          stdout: false,
+          stdout: true,
           stderr: true,
           failOnError: true
         }
