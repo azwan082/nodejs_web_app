@@ -5,11 +5,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/') Website
+      a.navbar-brand(href='/')= __('Website')
     div.navbar-collapse.collapse
       ul.nav.navbar-nav
         li.active
-          a(href='/') Home
+          a(href='/')= __('Home')
       ul.nav.navbar-nav.navbar-right
         if user.id
           li(class='dropdown active')
@@ -17,11 +17,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
               span.caret
             ul.dropdown-menu(role='menu')
               li
-                a(href='/dashboard') Dashboard
-                a(href='/settings') Settings
+                a(href='/dashboard')= __('Dashboard')
+                a(href='/settings')= __('Settings')
               li.divider
               li
-                a(href='/logout') Logout
+                a(href='/logout')= __('Logout')
         else
           li(class=selectedNavBarTab == 'login' && 'active')
-            a(href='/login') Login
+            a(href='/login')= __('Login')
