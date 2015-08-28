@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var mongodb = require('./lib/mongodb');
 
 var index = require('./routes/index');
@@ -27,7 +29,19 @@ app.use(favicon(path.join(__dirname, 'public', 'dist', 'img', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public', 'dist')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
-// TODO session user
+// session
+app.use(session({
+  name: 'session_id',
+  secret: '53cR37',
+  saveUninitialized: false, // don't create session until something stored
+  resave: false, // don't save session if unmodified
+  store: new MongoStore({
+    mongooseConnection: mongodb.connection,
+    touchAfter: 3600 // in seconds
+  })
+}));
+
+// session user
 app.use(function(req, res, next) {
   res.locals.user = {};
   next();
