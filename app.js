@@ -67,7 +67,7 @@ app.use(session({
   })
 }));
 
-// TODO session user
+// session user & auth (passport)
 app.use(function(req, res, next) {
   res.locals.user = {};
   next();
