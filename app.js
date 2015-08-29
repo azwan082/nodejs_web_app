@@ -41,7 +41,7 @@ var i18nArg = {
 };
 i18n.configure(i18nArg);
 app.use(i18n.init);
-app.use(function(req, res, next) {
+app.use(function(req, res, next) { // change locale using 'lang' query string
   var lang = req.query.lang;
   if (lang) {
     if (i18nArg.locales.indexOf(lang) == -1) {

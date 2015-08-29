@@ -43,13 +43,7 @@ module.exports = function(grunt) {
     // start mongodb
     shell: {
       mongodb: {
-        command: 'mongod',
-        options: {
-          async: true,
-          stdout: true,
-          stderr: true,
-          failOnError: true
-        }
+        command: 'mongod'
       }
     },
 
@@ -101,7 +95,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-shell-spawn');
+  // grunt.loadNpmTasks('grunt-shell-spawn');
+  grunt.loadNpmTasks('grunt-shell');
 
   // register tasks
   grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'concurrent']);
