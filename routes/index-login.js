@@ -9,6 +9,7 @@ var router = express.Router();
 router.get('/', function(req, res) {
   if (req.user) {
     var done = function() {
+      res.flash('info', 'You are now logged in');
       res.redirect('/settings');
     };
     var remember = req.session._remember;
@@ -95,44 +96,6 @@ router.post('/', [
   })
 
 ]);
-
-
-  // passport auth
-//   passport.authenticate('local', function(err, user) {
-//     if (!user) {
-//       return res.redirect('/login');
-//     }
-//     res.redirect('/settings');
-//     // successRedirect: '/settings',
-//     // failureRedirect: '/login'
-//   }),
-
-//   // remember me
-//   function(req, res, next) {
-//     if (!req.body.remember) {
-//       return next();
-//     }
-//     passport.generateToken(req.user, function(err, token) {
-//       if (err) {
-//         return next(err);
-//       }
-//       res.cookie(auth.REMEMBER_ME_COOKIE, token, {
-//         path: '/',
-//         httpOnly: true,
-//         maxAge: 604800000
-//       });
-//       next();
-//     });
-//   },
-
-//   // login done
-//   function(req, res) {
-//     if (req.session._form) {
-//       delete req.session._form;
-//     }
-//     res.redirect('/settings');
-//   }
-// ]);
 
 function render(res, arg) {
   arg = arg || {};

@@ -1,9 +1,16 @@
 var express = require('express');
 var __ = require('i18n').__;
 var iz = require('iz');
+var passport = require('passport');
 var router = express.Router();
 
 router.get('/', function(req, res) {
+  if (req.user) {
+    delete req.session._form;
+    req.flash('success', 'Account successfully created');
+    req.flash('info', 'You are now logged in');
+    return res.redirect('/settings');
+  }
   var inputs = {};
   var errors = {};
   if (req.session._form) {
@@ -17,56 +24,65 @@ router.get('/', function(req, res) {
   });
 });
 
-router.post('/', function(req, res) {
-  var username = req.body.username || '';
-  var email = req.body.email || '';
-  var password = req.body.password || '';
-  var agree = parseInt(req.body.agree || 0) == 1;
-  var errors = {};
-  if (username.length < 3) {
-    if (username.length === 0) {
-      errors.username = 'Username is required';
+router.post('/', [
+
+  // form validation
+  function(req, res, next) {
+    var username = req.body.username || '';
+    var email = req.body.email || '';
+    var password = req.body.password || '';
+    var agree = parseInt(req.body.agree || 0) == 1;
+    var errors = {};
+    if (username.length < 3) {
+      if (username.length === 0) {
+        errors.username = 'Username is required';
+      } else {
+        errors.username = 'Username too short';
+      }
+    }
+    else if (username.length > 64) {
+      errors.username = 'Username too long';
+    }
+    if (email.length === 0) {
+      errors.email = 'Email is required';
     } else {
-      errors.username = 'Username too short';
+      if (!iz.email(email)) {
+        errors.email = 'Invalid email';
+      }
     }
-  }
-  else if (username.length > 64) {
-    errors.username = 'Username too long';
-  }
-  if (email.length === 0) {
-    errors.email = 'Email is required';
-  } else {
-    if (!iz.email(email)) {
-      errors.email = 'Invalid email';
+    if (password.length < 5) {
+      if (password.length === 0) {
+        errors.password = 'Password is required';
+      } else {
+        errors.password = 'Password too short';
+      }
     }
-  }
-  if (password.length < 5) {
-    if (password.length === 0) {
-      errors.password = 'Password is required';
+    else if (password.length > 32) {
+      errors.password = 'Password too long';
+    }
+    if (!agree) {
+      errors.agree = true;
+    }
+    if (Object.keys(errors).length === 0) {
+      next();
     } else {
-      errors.password = 'Password too short';
+      render(res, {
+        inputs: {
+          username: username,
+          email: email
+        },
+        errors: errors
+      });
     }
-  }
-  else if (password.length > 32) {
-    errors.password = 'Password too long';
-  }
-  if (!agree) {
-    errors.agree = true;
-  }
-  if (Object.keys(errors).length === 0) {
-    req.flash('success', 'Account successfully created');
-    req.flash('info', 'You are now logged in');
-    res.redirect('/settings');
-  } else {
-    render(res, {
-      inputs: {
-        username: username,
-        email: email
-      },
-      errors: errors
-    });
-  }
-});
+  },
+
+  // process registration
+  passport.authenticate('register', {
+    successRedirect: '/register',
+    failureRedirect: '/register'
+  })
+
+]);
 
 function render(res, arg) {
   arg = arg || {};
