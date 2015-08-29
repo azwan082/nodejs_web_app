@@ -1,13 +1,26 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 
-var userSchema = mongoose.Schema({
-    name: String,
-    email: String,
-    password: String
+var schema = mongoose.Schema({
+  name: {
+    type: String,
+    index: true
+  },
+  email: {
+    type: String,
+    index: true
+  },
+  password: String,
+  rememberToken: String
 });
+// schema.set('autoIndex', false); // TODO uncomment in live server
 
-userSchema.methods._instanceMethod = function() {};
+schema.methods.isValidPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
-userSchema.statics._staticMethod = function() {};
+schema.statics.hashPassword = function(password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', schema);

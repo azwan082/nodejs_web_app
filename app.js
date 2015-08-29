@@ -9,12 +9,14 @@ var MongoStore = require('connect-mongo')(session);
 var i18n = require('i18n');
 var __ = i18n.__;
 var mongodb = require('./lib/mongodb');
+var auth = require('./lib/auth');
 
 var index = require('./routes/index');
 
 // setup
 var app = express();
 mongodb.init();
+auth.init();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,7 +39,8 @@ var i18nArg = {
   defaultLocale: 'en',
   cookie: 'lang',
   directory: path.join(__dirname, 'i18n'),
-  indent: '  '
+  indent: '  ',
+  updateFiles: false
 };
 i18n.configure(i18nArg);
 app.use(i18n.init);
