@@ -8,6 +8,8 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var i18n = require('i18n');
 var __ = i18n.__;
+var passport = require('passport');
+var flash = require('flash');
 var mongodb = require('./lib/mongodb');
 var auth = require('./lib/auth');
 
@@ -71,10 +73,16 @@ app.use(session({
 }));
 
 // session user & auth (passport)
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.authenticate('remember-me'));
 app.use(function(req, res, next) {
-  res.locals.user = {};
+  res.locals.user = req.user || {};
   next();
 });
+
+// flash messages
+app.use(flash());
 
 // routes
 app.use('/', index);

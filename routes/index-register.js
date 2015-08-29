@@ -12,6 +12,8 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+  req.flash('success', 'Account successfully created');
+  req.flash('info', 'You are now logged in');
   res.redirect('/settings');
 });
 
