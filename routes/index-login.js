@@ -3,7 +3,7 @@ var __ = require('i18n').__;
 var iz = require('iz');
 var passport = require('passport');
 var auth = require('../lib/auth');
-var Session = require('../models/session');
+var UserSession = require('../models/user-session');
 var router = express.Router();
 
 router.get('/', function(req, res) {
@@ -16,12 +16,11 @@ router.get('/', function(req, res) {
     delete req.session._form;
     delete req.session._remember;
     if (remember) {
-      return Session.generateRememberToken(req.user, function(err, token) {
+      return UserSession.generateRememberToken(req.user, function(err, token) {
         if (!err) {
           res.cookie(auth.REMEMBER_ME_COOKIE, token, {
-            path: '/',
             httpOnly: true,
-            maxAge: 604800000
+            maxAge: 31536000000
           });
         }
         done();

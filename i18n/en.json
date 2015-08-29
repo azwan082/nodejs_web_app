@@ -16,5 +16,7 @@
   "Save": "Save",
   "Account": "Account",
   "Current password": "Current password",
-  "New password": "New password"
+  "New password": "New password",
+  "Logout": "Logout",
+  "User not found": "User not found"
 }

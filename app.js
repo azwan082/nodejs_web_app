@@ -42,7 +42,7 @@ var i18nArg = {
   cookie: 'lang',
   directory: path.join(__dirname, 'i18n'),
   indent: '  ',
-  updateFiles: false
+  // updateFiles: false
 };
 i18n.configure(i18nArg);
 app.use(i18n.init);
@@ -53,8 +53,7 @@ app.use(function(req, res, next) { // change locale using 'lang' query string
       lang = i18nArg.defaultLocale;
     }
     res.cookie(i18nArg.cookie, lang, {
-      maxAge: 900000,
-      httpOnly: true
+      maxAge: 31536000000
     });
   }
   next();
@@ -106,6 +105,7 @@ app.use(function(req, res, next) {
 // development error handler, will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    console.log('err = ' + err);
     res.status(err.status || 500);
     res.render('_error', {
       message: err.message,

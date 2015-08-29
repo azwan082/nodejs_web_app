@@ -24,4 +24,4 @@ function generateToken() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-module.exports = mongoose.model('Session', schema);
+module.exports = mongoose.model('UserSession', schema);
