@@ -3,7 +3,10 @@ extends _layout
 block content
   include _navbar
   div.container
-    h1 Login page
-    a(href='/register') Register
-    br
-    a(href='/settings') Settings
+    div.row
+      div.col-md-9
+        h1 Login
+      div.col-md-3
+        a(href='/register') Register
+        br
+        a(href='/settings') Settings
