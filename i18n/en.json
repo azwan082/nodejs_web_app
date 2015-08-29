@@ -4,5 +4,21 @@
   "Login": "Login",
   "Not Found": "Not Found",
   "Register": "Register",
-  "Home page": "Home page"
+  "Home page": "Home page",
+  "Settings": "Settings",
+  "Username": "Username",
+  "Password": "Password",
+  "Remember me": "Remember me",
+  "Email": "Email",
+  "Agree with <a href=\"#\">Terms and Conditions</a>": "Agree with <a href=\"#\">Terms and Conditions</a>",
+  "Agree with <a href=\"%s\">Terms and Conditions</a>": "Agree with <a href=\"%s\">Terms and Conditions</a>",
+  "%s Company %s": "%s Company %s",
+  "Language": "Language",
+  "Timezone": "Timezone",
+  "Current password": "Current password",
+  "New password": "New password",
+  "Save": "Save",
+  "Account": "Account",
+  "Account Settings": "Account Settings",
+  "Recover password": "Recover password"
 }

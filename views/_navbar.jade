@@ -8,11 +8,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
       a.navbar-brand(href='/')= __('Website')
     div.navbar-collapse.collapse
       ul.nav.navbar-nav
-        li.active
+        li(class=!navbar.selected && 'active')
           a(href='/')= __('Home')
       ul.nav.navbar-nav.navbar-right
         if user.id
-          li(class='dropdown active')
+          li(class='dropdown' + (navbar.selected == 'settings' && ' active'))
             a.dropdown-toggle(href='#' data-toggle='dropdown')= user.name + ' '
               span.caret
             ul.dropdown-menu(role='menu')
@@ -23,5 +23,5 @@ nav.navbar.navbar-inverse.navbar-fixed-top
               li
                 a(href='/logout')= __('Logout')
         else
-          li(class=selectedNavBarTab == 'login' && 'active')
+          li(class=navbar.selected == 'login' && 'active')
             a(href='/login')= __('Login')

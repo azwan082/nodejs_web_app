@@ -9,7 +9,8 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
   res.render('index', {
-    title: __('Home page')
+    title: __('Home page'),
+    navbar: {}
   });
 });
 

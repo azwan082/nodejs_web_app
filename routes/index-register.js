@@ -4,7 +4,10 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
   res.render('index-register', {
-    title: __('Register')
+    title: __('Register'),
+    navbar: {
+      selected: 'login'
+    }
   });
 });
 

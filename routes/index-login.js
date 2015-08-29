@@ -4,7 +4,10 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
   res.render('index-login', {
-    title: __('Login')
+    title: __('Login'),
+    navbar: {
+      selected: 'login'
+    }
   });
 });
 
