@@ -4,16 +4,17 @@ var bcrypt = require('bcrypt-nodejs');
 var schema = mongoose.Schema({
   name: {
     type: String,
-    index: true
+    index: true,
+    unique: true
   },
   email: {
     type: String,
-    index: true
+    index: true,
+    unique: true
   },
   password: String,
   rememberToken: String
 });
-// schema.set('autoIndex', false); // TODO uncomment in live server
 
 schema.methods.isValidPassword = function(password) {
   return bcrypt.compareSync(password, this.password);

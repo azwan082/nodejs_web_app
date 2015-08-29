@@ -7,6 +7,5 @@ var schema = mongoose.Schema({
   },
   value: String
 });
-// schema.set('autoIndex', false); // TODO uncomment in live server
 
 module.exports = mongoose.model('Meta', schema);
