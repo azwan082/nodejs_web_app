@@ -2,3 +2,9 @@ body {
     padding-top: 70px;
     padding-bottom: 30px;
 }
+
+/* express-debug */
+#EDT { z-index: 2000 !important; }
+.express-debug * { font-size: 11px !important; }
+#EDT td, #EDT th { padding: 0 0 0 2px !important; }
+#EDT table { width: inherit !important; }

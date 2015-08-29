@@ -84,6 +84,15 @@ app.use(function(req, res, next) {
 // flash messages
 app.use(flash());
 
+// debug toolbar
+if (app.get('env') === 'development') {
+  var debug = require('express-debug');
+  debug(app, {
+    depth: 5,
+    panels: ['locals', 'request', 'session', 'template']
+  });
+}
+
 // routes
 app.use('/', index);
 

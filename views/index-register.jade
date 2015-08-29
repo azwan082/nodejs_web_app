@@ -13,23 +13,29 @@ block content
       div.col-md-9
         h1= __('Register')
         form.form-horizontal(action='/register' method='post')
-          div.form-group
+          div(class='form-group' + (errors.username ? ' has-error' : ''))
             label.col-md-3.control-label= __('Username')
             div.col-md-9
-              input.form-control(type='text')
-          div.form-group
+              input.form-control(type='text' name='username' max-length='64' value=(inputs.username || ''))
+              if errors.username
+                span.help-block= errors.username
+          div(class='form-group' + (errors.email ? ' has-error' : ''))
             label.col-md-3.control-label= __('Email')
             div.col-md-9
-              input.form-control(type='email')
-          div.form-group
+              input.form-control(type='email' name='email' max-length='255' value=(inputs.email || ''))
+              if errors.email
+                span.help-block= errors.email
+          div(class='form-group' + (errors.password ? ' has-error' : ''))
             label.col-md-3.control-label= __('Password')
             div.col-md-9
-              input.form-control(type='password')
-          div.form-group
+              input.form-control(type='password' name='password' max-length='32')
+              if errors.password
+                span.help-block= errors.password
+          div(class='form-group' + (errors.agree ? ' has-error' : ''))
             div.col-md-offset-3.col-md-9
               div.checkbox
                 label
-                  input(type='checkbox')
+                  input(type='checkbox' name='agree' value='1')
                   != __('Agree with Terms and Conditions')
           div.form-group
             div.col-md-offset-3.col-md-9
