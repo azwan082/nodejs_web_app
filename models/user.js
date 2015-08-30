@@ -13,7 +13,10 @@ var schema = mongoose.Schema({
     unique: true
   },
   password: String,
-  rememberToken: String
+  rememberToken: String,
+  language: String,
+  country: String,
+  timezone: String
 });
 
 schema.methods.isValidPassword = function(password) {

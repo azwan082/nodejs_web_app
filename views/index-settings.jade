@@ -1,5 +1,11 @@
 extends _layout
 
+mixin select-option(value, selected, name)
+  if (selected)
+    option(value=value selected='selected')= name
+  else
+    option(value=value)= name
+
 block content
   include _navbar
   div.container
@@ -13,18 +19,32 @@ block content
       div.col-md-9
         include _flash
         h1= title
-        form.form-horizontal
+        form.form-horizontal(action=('/settings?tab=' + tab) method='post')
           if tab == 'settings'
-            div.form-group
+            div(class='form-group' + (errors.language ? ' has-error' : ''))
               label.col-md-3.control-label= __('Language')
               div.col-md-9
-                select.form-control
-                  option Select language
-            div.form-group
+                select.form-control(name='language')
+                  each language in languages
+                    +select-option(language.id, language.selected, language.name)
+                if errors.language
+                  span.help-block= errors.language
+            div(class='form-group' + (errors.country ? ' has-error' : ''))
+              label.col-md-3.control-label= __('Country')
+              div.col-md-9
+                select.form-control(name='country')
+                  each country in countries
+                    +select-option(country.id, country.selected, country.name)
+                if errors.country
+                  span.help-block= errors.country
+            div(class='form-group' + (errors.timezone ? ' has-error' : ''))
               label.col-md-3.control-label= __('Timezone')
               div.col-md-9
-                select.form-control
-                  option Select timezone
+                select.form-control(name='timezone')
+                  each zone in timezones
+                    +select-option(zone.id, zone.selected, zone.name)
+                if errors.timezone
+                  span.help-block= errors.timezone
           if tab == 'account'
             div.form-group
               label.col-md-3.control-label= __('Username')
@@ -43,9 +63,9 @@ block content
               label.col-md-3.control-label= __('New password')
               div.col-md-9
                 input.form-control(type='password')
-        div.form-group
-          div.col-md-offset-3.col-md-9
-            button.btn.btn-primary(type='submit')= __('Save')
+          div.form-group
+            div.col-md-offset-3.col-md-9
+              button.btn.btn-primary(type='submit')= __('Save')
       div.col-md-3
         div.list-group
           a(class='list-group-item' + (tab == 'settings' ? ' active' : '') href='/settings')= __('Settings')

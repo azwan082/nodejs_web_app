@@ -6,12 +6,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-var i18n = require('i18n');
-var __ = i18n.__;
 var passport = require('passport');
 var flash = require('flash');
 var mongodb = require('./lib/mongodb');
 var auth = require('./lib/auth');
+var i18n = require('./lib/i18n');
+var __ = i18n.__;
 
 var index = require('./routes/index');
 
@@ -36,28 +36,7 @@ app.use(express.static(path.join(__dirname, 'public', 'dist')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
 // i18n
-var i18nArg = {
-  locales: ['en'],
-  defaultLocale: 'en',
-  cookie: 'lang',
-  directory: path.join(__dirname, 'i18n'),
-  indent: '  ',
-  // updateFiles: false
-};
-i18n.configure(i18nArg);
-app.use(i18n.init);
-app.use(function(req, res, next) { // change locale using 'lang' query string
-  var lang = req.query.lang;
-  if (lang) {
-    if (i18nArg.locales.indexOf(lang) == -1) {
-      lang = i18nArg.defaultLocale;
-    }
-    res.cookie(i18nArg.cookie, lang, {
-      maxAge: 31536000000
-    });
-  }
-  next();
-});
+i18n.init(app);
 
 // session
 app.use(session({
