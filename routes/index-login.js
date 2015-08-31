@@ -7,14 +7,15 @@ var UserSession = require('../models/user-session');
 var router = express.Router();
 
 router.get('/', function(req, res) {
+
+  // login successful
   if (req.user) {
     var done = function() {
       res.flash('info', 'You are now logged in');
       res.redirect('/settings');
     };
-    var remember = req.session._remember;
+    var remember = req.session._form.remember;
     delete req.session._form;
-    delete req.session._remember;
     if (remember) {
       return UserSession.generateRememberToken(req.user, function(err, token) {
         if (!err) {
@@ -28,6 +29,8 @@ router.get('/', function(req, res) {
     }
     return done();
   }
+
+  // show login form
   var inputs = {};
   var errors = {};
   if (req.session._form) {
@@ -35,10 +38,15 @@ router.get('/', function(req, res) {
     errors = req.session._form.errors || {};
     delete req.session._form;
   }
-  render(res, {
-    inputs: inputs,
-    errors: errors
+  res.render('index-login', {
+    title: __('Login'),
+    navbar: {
+      selected: 'login'
+    },
+    inputs: inputs || {},
+    errors: errors || {}
   });
+
 });
 
 router.post('/', [
@@ -76,15 +84,18 @@ router.post('/', [
       errors.password = 'Password too long';
     }
     if (Object.keys(errors).length === 0) {
-      req.session._remember = remember;
+      req.session._form = {
+        remember: remember
+      };
       next();
     } else {
-      render(res, {
+      req.session._form = {
         inputs: {
           login: login
         },
         errors: errors
-      });
+      };
+      res.redirect('/login');
     }
   },
 
@@ -95,17 +106,5 @@ router.post('/', [
   })
 
 ]);
-
-function render(res, arg) {
-  arg = arg || {};
-  res.render('index-login', {
-    title: __('Login'),
-    navbar: {
-      selected: 'login'
-    },
-    inputs: arg.inputs || {},
-    errors: arg.errors || {}
-  });
-}
 
 module.exports = router;

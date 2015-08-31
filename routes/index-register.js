@@ -5,12 +5,16 @@ var passport = require('passport');
 var router = express.Router();
 
 router.get('/', function(req, res) {
+  
+  // register successful
   if (req.user) {
     delete req.session._form;
     req.flash('success', 'Account successfully created');
     req.flash('info', 'You are now logged in');
     return res.redirect('/settings');
   }
+
+  // show register form
   var inputs = {};
   var errors = {};
   if (req.session._form) {
@@ -18,10 +22,15 @@ router.get('/', function(req, res) {
     errors = req.session._form.errors || {};
     delete req.session._form;
   }
-  render(res, {
-    inputs: inputs,
-    errors: errors
+  res.render('index-register', {
+    title: __('Register'),
+    navbar: {
+      selected: 'login'
+    },
+    inputs: inputs || {},
+    errors: errors || {}
   });
+
 });
 
 router.post('/', [
@@ -66,13 +75,14 @@ router.post('/', [
     if (Object.keys(errors).length === 0) {
       next();
     } else {
-      render(res, {
+      req.session._form = {
         inputs: {
           username: username,
           email: email
         },
         errors: errors
-      });
+      };
+      res.redirect('/register');
     }
   },
 
@@ -83,17 +93,5 @@ router.post('/', [
   })
 
 ]);
-
-function render(res, arg) {
-  arg = arg || {};
-  res.render('index-register', {
-    title: __('Register'),
-    navbar: {
-      selected: 'login'
-    },
-    inputs: arg.inputs || {},
-    errors: arg.errors || {}
-  });
-}
 
 module.exports = router;
