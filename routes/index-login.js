@@ -10,6 +10,10 @@ router.get('/', function(req, res) {
 
   // login successful
   if (req.user) {
+    if (!req.session._form) {
+      res.flash('warning', 'You are already logged in');
+      return res.redirect('/settings');
+    }
     var done = function() {
       res.flash('info', 'You are now logged in');
       res.redirect('/settings');

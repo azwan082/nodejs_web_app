@@ -8,9 +8,13 @@ router.get('/', function(req, res) {
   
   // register successful
   if (req.user) {
-    delete req.session._form;
-    req.flash('success', 'Account successfully created');
-    req.flash('info', 'You are now logged in');
+    if (req.session._form) {
+      delete req.session._form;
+      req.flash('success', 'Account successfully created');
+      req.flash('info', 'You are now logged in');
+    } else {
+      req.flash('warning', 'You are already registered');
+    }
     return res.redirect('/settings');
   }
 
