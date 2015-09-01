@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
     } else {
       req.flash('warning', 'You are already registered');
     }
-    return res.redirect('/settings');
+    return res.redirect('/dashboard');
   }
 
   // show register form

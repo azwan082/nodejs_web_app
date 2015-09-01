@@ -7,16 +7,17 @@ var UserSession = require('../models/user-session');
 var router = express.Router();
 
 router.get('/', function(req, res) {
+  var rd = req.query.rd || '/dashboard';
 
   // login successful
   if (req.user) {
     if (!req.session._form) {
       res.flash('warning', 'You are already logged in');
-      return res.redirect('/settings');
+      return res.redirect(rd);
     }
     var done = function() {
       res.flash('info', 'You are now logged in');
-      res.redirect('/settings');
+      res.redirect(rd);
     };
     var remember = req.session._form.remember;
     delete req.session._form;
@@ -42,6 +43,7 @@ router.get('/', function(req, res) {
     errors = req.session._form.errors || {};
     delete req.session._form;
   }
+  inputs.rd = rd;
   res.render('index-login', {
     title: __('Login'),
     navbar: {

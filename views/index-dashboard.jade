@@ -1,0 +1,20 @@
+extends _layout
+
+block content
+  include _navbar
+  div.container
+    div.row
+      o.breadcrumb
+        li
+          a(href='/')= __('Home')
+        li.active= __('Dashboard')
+  div.container
+    div.row
+      div.col-md-9
+        include _flash
+        h1= title
+      div.col-md-3
+        div.list-group
+          a.list-group-item.active(href='/dashboard')= __('Dashboard')
+          a.list-group-item(href='/settings')= __('Settings')
+    include _footer
