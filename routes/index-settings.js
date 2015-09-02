@@ -78,7 +78,7 @@ router.post('/', [
 
   // handling file uploads
   multer({
-    dest: '../uploads/',
+    dest: path.join(__dirname, '..', 'uploads'),
     limits: {
       fileSize: 1048576 // max file size = 1MB
     }
