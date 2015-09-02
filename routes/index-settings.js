@@ -1,8 +1,12 @@
 var express = require('express');
 var __ = require('i18n').__;
 var iz = require('iz');
-var i18n = require('../lib/i18n');
+var multer = require('multer');
+var gm = require('gm').subClass({ imageMagick: true });
+var path = require('path');
+var fs = require('fs-extra');
 var data = require('moment-timezone/data/meta/latest.json');
+var i18n = require('../lib/i18n');
 var User = require('../models/user');
 var middlewares = require('../lib/middlewares');
 var router = express.Router();
@@ -72,6 +76,28 @@ router.post('/', [
   // logged in users only
   middlewares.isLoggedIn('/settings'),
 
+  // handling file uploads
+  multer({
+    dest: '../uploads/',
+    limits: {
+      fileSize: 1048576 // max file size = 1MB
+    }
+  }).single('avatar'),
+
+  // multer error handling
+  function(err, req, res, next) {
+    if (err) {
+      req.session._form = {
+        errors: {
+          avatar: err.message
+        }
+      };
+      res.redirect('/settings');
+    } else {
+      next();
+    }
+  },
+
   // save form
   function(req, res) {
     var language = req.body.language || '';
@@ -108,36 +134,117 @@ router.post('/', [
         }
       }
     }
-    if (Object.keys(errors).length === 0) {
-      req.user.language = language;
-      req.user.timezone = timezone;
-      req.user.country = country;
-      req.user.email = email;
-      if (newPassword) {
-        req.user.password = User.hashPassword(password);
+    validateAvatar(req, function(err, avatar) {
+      if (err) {
+        errors.avatar = err;
       }
-      req.user.save(function(err) {
-        if (err) {
-          req.flash('error', 'Failed to save changes');
-        } else {
-          req.flash('info', 'Settings saved');
+      if (Object.keys(errors).length === 0) {
+        req.user.language = language;
+        req.user.timezone = timezone;
+        req.user.country = country;
+        req.user.email = email;
+        if (newPassword) {
+          req.user.password = User.hashPassword(password);
         }
+        if (avatar) {
+          req.user.avatar = avatar;
+        }
+        req.user.save(function(err) {
+          if (err) {
+            req.flash('error', 'Failed to save changes');
+          } else {
+            req.flash('info', 'Settings saved');
+          }
+          res.redirect('/settings');
+        });
+      } else {
+        req.session._form = {
+          errors: errors,
+          inputs: {
+            language: language,
+            timezone: timezone,
+            country: country,
+            email: email
+          }
+        };
         res.redirect('/settings');
-      });
-    } else {
-      req.session._form = {
-        errors: errors,
-        inputs: {
-          language: language,
-          timezone: timezone,
-          country: country,
-          email: email
-        }
-      };
-      res.redirect('/settings');
-    }
+      }
+    });
   }
 
 ]);
+
+function validateAvatar(req, done) {
+  var avatar = req.file || {};
+  if (avatar.fieldname == 'avatar') {
+    if (avatar.mimetype.indexOf('image/') !== 0) {
+      return done('Accept image file only');
+    }
+    var ext;
+    switch (avatar.mimetype) {
+      case 'image/jpg':
+      case 'image/jpeg':
+        ext = 'jpg';
+        break;
+      case 'image/png':
+        ext = 'png';
+        break;
+    }
+    if (!ext) {
+      return done('Unsupported image type');
+    }
+    gm(avatar.path).size(function(err, value) {
+      if (err) {
+        return done('Cannot get image dimension');
+      }
+      var w = value.width;
+      var h = value.height;
+      if (w > 1000 || h > 1000) {
+        return done('Image too large');
+      }
+      
+      var meta = req.user.getAvatarMetadata(ext);
+      fs.mkdirs(path.join(User.avatarPath, meta.folder), function(err) {
+        if (err) {
+          return done(err);
+        }
+        
+        var saved = function(err) {
+          if (err) {
+            return done(err.message);
+          }
+          var newAvatar = path.join(meta.folder, meta.filename);
+          var currentAvatar = req.user.avatar;
+          if (currentAvatar) {
+            return fs.remove(path.join(User.avatarPath, currentAvatar), function(err) {
+              if (err) {
+                return done(err.message);
+              }
+              done(null, newAvatar);
+            });
+          }
+          done(null, newAvatar);
+        };
+        
+        // resize avatar image to 100 x 100, 
+        // if not square, crop at center
+        var dest = path.join(User.avatarPath, meta.folder, meta.filename);
+        if (w == h) {
+          return gm(avatar.path).resize(100, 100).write(dest, saved);
+        }
+        var nh = null, nw = null, x = 0, y = 0;
+        if (w > h) {
+          nh = 100;
+          x = Math.round((((w / h) * nh) - 100) / 2);
+        } else {
+          nw = 100;
+          y = Math.round((((h / w) * nw) - 100) / 2);
+        }
+        gm(avatar.path).resize(nw, nh).crop(100, 100, x, y).write(dest, saved);
+      });
+    });
+  }
+  done();
+}
 
 module.exports = router;

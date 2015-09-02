@@ -19,8 +19,8 @@ block content
       div.col-md-9
         include _flash
         h1= title
-        form.form-horizontal(action=('/settings?tab=' + tab) method='post')
-          div(class='form-group' + (errors.language ? ' has-error' : ''))
+        form.form-horizontal(action=('/settings') method='post' enctype='multipart/form-data')
+          div.form-group(class=errors.language ? 'has-error' : '')
             label.col-md-3.control-label= __('Language')
             div.col-md-9
               select.form-control(name='language')
@@ -28,7 +28,7 @@ block content
                   +select-option(language.id, language.selected, language.name)
               if errors.language
                 span.help-block= errors.language
-          div(class='form-group' + (errors.country ? ' has-error' : ''))
+          div.form-group(class=errors.country ? 'has-error' : '')
             label.col-md-3.control-label= __('Country')
             div.col-md-9
               select.form-control(name='country')
@@ -36,7 +36,7 @@ block content
                   +select-option(country.id, country.selected, country.name)
               if errors.country
                 span.help-block= errors.country
-          div(class='form-group' + (errors.timezone ? ' has-error' : ''))
+          div.form-group(class=errors.timezone ? 'has-error' : '')
             label.col-md-3.control-label= __('Timezone')
             div.col-md-9
               select.form-control(name='timezone')
@@ -45,24 +45,31 @@ block content
               if errors.timezone
                 span.help-block= errors.timezone
           h3 Account
+          div.form-group(class=errors.avatar ? 'has-error' : '')
+            label.col-md-3.control-label= __('Avatar')
+            div.col-md-9
+              img.img-thumbnail(src=user.getAvatarUrl() width='100' height='100')
+              input(type='file' name='avatar')
+              if errors.avatar
+                span.help-block= errors.avatar
           div.form-group
             label.col-md-3.control-label= __('Username')
             div.col-md-9
               input.form-control(type='text' value=user.name readonly)
-          div(class='form-group' + (errors.email ? ' has-error' : ''))
+          div.form-group(class=errors.email ? 'has-error' : '')
             label.col-md-3.control-label= __('Email')
             div.col-md-9
               input.form-control(type='email' name='email' value=inputs.email)
               if errors.email
                 span.help-block= errors.email
           h3 Change password
-          div(class='form-group' + (errors.currentPassword ? ' has-error' : ''))
+          div.form-group(class=errors.currentPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('Current password')
             div.col-md-9
               input.form-control(type='password' name='cpassword' max-length='32')
               if errors.currentPassword
                 span.help-block= errors.currentPassword
-          div(class='form-group' + (errors.newPassword ? ' has-error' : ''))
+          div.form-group(class=errors.newPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('New password')
             div.col-md-9
               input.form-control(type='password' name='npassword' max-length='32')

@@ -20,5 +20,7 @@
   "Logout": "Logout",
   "User not found": "User not found",
   "Country": "Country",
-  "Dashboard": "Dashboard"
+  "Dashboard": "Dashboard",
+  "Avatar": "Avatar",
+  "Not Found": "Not Found"
 }
