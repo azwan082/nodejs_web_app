@@ -15,39 +15,39 @@ $(function() {
       return;
     }
     e.preventDefault();
+    var submitForm = function() {
+      doSubmit = true;
+      form.submit();
+    };
     $.ajax({
       method: 'POST',
       url: '/login',
       data: {
         login: loginField.val(),
         password: passwordField.val(),
-        remember: $('#remember:checked').val()
+        remember: $('#remember input:checked').val()
       },
       dataType: 'json'
     })
     .done(function(data) {
       data = data || {};
-      if (data.status == 'ok') {
-        var errors = data.errors || {};
-        if (Object.keys(errors).length === 0) {
-          doSubmit = true;
-          form.submit();
-        } else {
-          if (errors.login) {
-            login.addClass('has-error');
-            loginHelp.text(errors.login).removeClass('hidden');
-          }
-          if (errors.password) {
-            password.addClass('has-error');
-            passwordHelp.text(errors.password).removeClass('hidden');
-          }
-        }
+      if (data.status != 'ok') {
+        return submitForm();
+      }
+      var errors = data.errors || {};
+      if (Object.keys(errors).length === 0) {
+        return submitForm();
+      }
+      if (errors.login) {
+        login.addClass('has-error');
+        loginHelp.text(errors.login).removeClass('hidden');
+      }
+      if (errors.password) {
+        password.addClass('has-error');
+        passwordHelp.text(errors.password).removeClass('hidden');
       }
     })
-    .fail(function(xhr, status, error) {
-      doSubmit = true;
-      form.submit();
-    });
+    .fail(submitForm);
   });
 
   loginField.on('change', function() {

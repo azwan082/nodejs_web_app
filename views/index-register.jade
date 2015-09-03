@@ -12,23 +12,23 @@ block content
     div.row
       div.col-md-9
         h1= __('Register')
-        form.form-horizontal(action='/register' method='post')
-          div.form-group(class=errors.username ? 'has-error' : '')
+        form#form.form-horizontal(action='/register' method='post')
+          div#username.form-group(class=errors.username ? 'has-error' : '')
             label.col-md-3.control-label= __('Username')
             div.col-md-9
               input.form-control(type='text' name='username' maxlength='64' value=(inputs.username || ''))
               span.help-block(class=errors.username ? '' : 'hidden')= errors.username
-          div.form-group(class=errors.email ? 'has-error' : '')
+          div#email.form-group(class=errors.email ? 'has-error' : '')
             label.col-md-3.control-label= __('Email')
             div.col-md-9
               input.form-control(type='email' name='email' maxlength='255' value=(inputs.email || ''))
               span.help-block(class=errors.email ? '' : 'hidden')= errors.email
-          div.form-group(class=errors.password ? 'has-error' : '')
+          div#password.form-group(class=errors.password ? 'has-error' : '')
             label.col-md-3.control-label= __('Password')
             div.col-md-9
               input.form-control(type='password' name='password' maxlength='32')
               span.help-block(class=errors.password ? '' : 'hidden')= errors.password
-          div.form-group(class=errors.agree ? 'has-error' : '')
+          div#agree.form-group(class=errors.agree ? 'has-error' : '')
             div.col-md-offset-3.col-md-9
               div.checkbox
                 label
@@ -40,3 +40,6 @@ block content
       div.col-md-3
         include _sidebar
     include _footer
+
+block scripts
+  script(src='/js/index-register.js')
