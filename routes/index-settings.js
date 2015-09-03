@@ -176,6 +176,8 @@ function validateAvatar(req, done) {
     if (avatar.mimetype.indexOf('image/') !== 0) {
       return done('Accept image file only');
     }
+
+    // only allow jpg & png
     var ext;
     switch (avatar.mimetype) {
       case 'image/jpg':
@@ -189,6 +191,8 @@ function validateAvatar(req, done) {
     if (!ext) {
       return done('Unsupported image type');
     }
+
+    // get image dimension & validate size
     gm(avatar.path).size(function(err, value) {
       if (err) {
         return done('Cannot get image dimension');
@@ -199,6 +203,7 @@ function validateAvatar(req, done) {
         return done('Image too large');
       }
       
+      // get/create avatar folder
       var meta = req.user.getAvatarMetadata(ext);
       fs.mkdirs(path.join(User.avatarPath, meta.folder), function(err) {
         if (err) {
@@ -209,6 +214,8 @@ function validateAvatar(req, done) {
           if (err) {
             return done(err.message);
           }
+
+          // update db, remove previous avatar
           var newAvatar = path.join(meta.folder, meta.filename);
           var currentAvatar = req.user.avatar;
           if (currentAvatar) {

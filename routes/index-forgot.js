@@ -43,7 +43,6 @@ router.post('/', function(req, res) {
   }
   
   var onError = function(err) {
-    console.log('onError, err: ', err);
     if (err) {
       req.flash('danger', err.message || err);
     }
@@ -54,12 +53,9 @@ router.post('/', function(req, res) {
   };
   
   if (Object.keys(errors).length === 0) {
-    console.log('no errors');
     User.findOne({
       email: email
     }, function(err, user) {
-      console.log('User.findOne(), err: ', err);
-      console.log('User.findOne(), user: ', user);
       if (err) {
         return onError(err);
       }
@@ -71,30 +67,25 @@ router.post('/', function(req, res) {
         key: resetKey,
         created: new Date()
       };
-      console.log('resetKey: ', resetKey);
       user.save(function(err) {
-        console.log('user.save(), err: ', err);
         if (err) {
           return onError(err);
         }
-        var template = path.join(__dirname, '..', 'views', 'index-forgot-template.jade'); console.log('template: ', template);
-        var fn = jade.compileFile(template); console.log('fn: ', fn);
+        var template = path.join(__dirname, '..', 'views', 'index-forgot-template.jade');
+        var fn = jade.compileFile(template);
         var html = fn({
           __: __,
           url: 'http://localhost:8080/reset/?key=' + resetKey
         });
-        console.log('send to: ', email, 'html: ', html);
         mailer.sendMail({
           from: 'noreply@localhost',
           to: email,
           subject: 'Reset password',
           html: html
         }, function(err, info) {
-          console.log('sendMail(), err: ', err);
           if (err) {
             return onError(err);
           }
-          console.log('info: ', info);
           req.session._form = {
             inputs: {
               sent: true
