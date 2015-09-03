@@ -22,5 +22,9 @@
   "Country": "Country",
   "Dashboard": "Dashboard",
   "Avatar": "Avatar",
-  "Not Found": "Not Found"
+  "Not Found": "Not Found",
+  "Forgot password?": "Forgot password?",
+  "Forgot password": "Forgot password",
+  "Give us your email address and we will send you link to reset your password": "Give us your email address and we will send you link to reset your password",
+  "Send": "Send"
 }

@@ -16,12 +16,13 @@ What this package provide?
 - Auth system using PassportJS
 - File uploads
 - Image processing using ImageMagick
+- Send email
 
 ## To get started:
 
 Install dependencies using Homebrew:
 
-- NodeJS (`brew install node`)
+- NodeJS (`brew install node010`)
 - MongoDB (`brew install mongodb24`)
 - ImageMagick (`brew install imagemagick`)
 

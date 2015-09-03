@@ -5,6 +5,7 @@ var logout = require('./index-logout');
 var register = require('./index-register');
 var dashboard = require('./index-dashboard');
 var settings = require('./index-settings');
+var forgot = require('./index-forgot');
 
 var router = express.Router();
 
@@ -20,5 +21,6 @@ router.use('/logout', logout);
 router.use('/register', register);
 router.use('/dashboard', dashboard);
 router.use('/settings', settings);
+router.use('/forgot', forgot);
 
 module.exports = router;
