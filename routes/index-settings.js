@@ -61,6 +61,10 @@ router.get('/', [
       navbar: {
         selected: 'settings'
       },
+      sidebar: {
+        type: 'settings',
+        selected: 'settings'
+      },
       errors: errors,
       inputs: inputs,
       languages: languages,

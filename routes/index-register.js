@@ -31,6 +31,10 @@ router.get('/', function(req, res) {
     navbar: {
       selected: 'login'
     },
+    sidebar: {
+      type: 'login',
+      selected: 'register'
+    },
     inputs: inputs || {},
     errors: errors || {}
   });

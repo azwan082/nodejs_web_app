@@ -79,7 +79,5 @@ block content
             div.col-md-offset-3.col-md-9
               button.btn.btn-primary(type='submit')= __('Save')
       div.col-md-3
-        div.list-group
-          a.list-group-item(href='/dashboard')= __('Dashboard')
-          a.list-group-item.active(href='/settings')= __('Settings')
+        include _sidebar
     include _footer

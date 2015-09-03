@@ -41,7 +41,5 @@ block content
             div.col-md-offset-3.col-md-9
               button.btn.btn-primary(type='submit')= __('Register')
       div.col-md-3
-        div.list-group
-          a.list-group-item(href='/login')= __('Login')
-          a.list-group-item.active(href='/register')= __('Register')
+        include _sidebar
     include _footer

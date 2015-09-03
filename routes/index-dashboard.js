@@ -14,6 +14,10 @@ router.get('/', [
       title: __('Dashboard'),
       navbar: {
         selected: 'settings'
+      },
+      sidebar: {
+        type: 'settings',
+        selected: 'dashboard'
       }
     });
   }

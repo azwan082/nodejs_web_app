@@ -16,7 +16,5 @@ block content
         img.img-thumbnail(src=user.getAvatarUrl() width='100' height='100')
         p= user.name
       div.col-md-3
-        div.list-group
-          a.list-group-item.active(href='/dashboard')= __('Dashboard')
-          a.list-group-item(href='/settings')= __('Settings')
+        include _sidebar
     include _footer

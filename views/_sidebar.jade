@@ -1,0 +1,8 @@
+if sidebar.type == 'login'
+  div.list-group
+    a.list-group-item(class=(sidebar.selected == 'login' ? 'active' : '') href='/login')= __('Login')
+    a.list-group-item(class=(sidebar.selected == 'register' ? 'active' : '') href='/register')= __('Register')
+if sidebar.type == 'settings'
+  div.list-group
+    a.list-group-item(class=(sidebar.selected == 'dashboard' ? 'active' : '') href='/dashboard')= __('Dashboard')
+    a.list-group-item(class=(sidebar.selected == 'settings' ? 'active' : '') href='/settings')= __('Settings')

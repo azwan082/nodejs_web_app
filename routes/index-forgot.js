@@ -7,7 +7,10 @@ router.get('/', function(req, res) {
     title: __('Forgot password'),
     navbar: {
       selected: 'login'
-    }
+    },
+    sidebar: {
+      type: 'login'
+    },
   });
 });
 
