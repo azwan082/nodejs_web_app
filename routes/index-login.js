@@ -3,6 +3,7 @@ var __ = require('i18n').__;
 var iz = require('iz');
 var passport = require('passport');
 var auth = require('../lib/auth');
+var middlewares = require('../lib/middlewares');
 var UserSession = require('../models/user-session');
 var router = express.Router();
 
@@ -60,6 +61,8 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', [
+
+  middlewares.mustNotLoggedIn,
 
   // form validation
   function(req, res, next) {

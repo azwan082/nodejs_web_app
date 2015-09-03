@@ -18,7 +18,11 @@ var schema = mongoose.Schema({
   language: String,
   country: String,
   timezone: String,
-  avatar: String
+  avatar: String,
+  reset: {
+    key: String,
+    created: Date
+  }
 });
 
 schema.methods.isValidPassword = function(password) {

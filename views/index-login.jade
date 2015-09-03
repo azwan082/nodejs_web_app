@@ -17,13 +17,13 @@ block content
           div.form-group(class=errors.login ? 'has-error' : '')
             label.col-md-3.control-label= __('Login')
             div.col-md-9
-              input.form-control(type='text' name='login' max-length='255' value=(inputs.login || '') placeholder='Username or email')
+              input.form-control(type='text' name='login' maxlength='255' value=(inputs.login || '') placeholder='Username or email')
               if errors.login
                 span.help-block= errors.login
           div.form-group(class=errors.password ? ' has-error' : '')
             label.col-md-3.control-label= __('Password')
             div.col-md-9
-              input.form-control(type='password' name='password')
+              input.form-control(type='password' name='password' maxlength='32')
               if errors.password
                 span.help-block= errors.password
           div.form-group

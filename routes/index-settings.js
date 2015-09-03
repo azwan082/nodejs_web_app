@@ -11,74 +11,66 @@ var User = require('../models/user');
 var middlewares = require('../lib/middlewares');
 var router = express.Router();
 
-router.get('/', [
+// logged in users only
+router.use(middlewares.mustLoggedIn('/settings'));
 
-  // logged in users only
-  middlewares.isLoggedIn('/settings'),
-
-  // settings form
-  function(req, res) {
-    var errors = {};
-    var inputs = {};
-    if (req.session._form) {
-      errors = req.session._form.errors || {};
-      inputs = req.session._form.inputs || {};
-      delete req.session._form;
-    }
-    inputs.email = inputs.email || req.user.email;
-    inputs.language = inputs.language || i18n.getSelectedLanguage(req);
-    inputs.timezone = inputs.timezone || req.user.timezone;
-    inputs.country = inputs.country || req.user.country;
-    var languages = Object.keys(i18n.languages).map(function(id) {
-      return {
-        id: id,
-        name: i18n.languages[id],
-        selected: id == inputs.language
-      };
-    });
-    var timezones = Object.keys(data.zones).map(function(id) {
-      return {
-        id: id,
-        name: data.zones[id].name,
-        selected: id == inputs.timezone
-      };
-    });
-    var countries = Object.keys(data.countries).map(function(id) {
-      return {
-        id: id,
-        name: data.countries[id].name,
-        selected: id == inputs.country
-      };
-    });
-    var sort = function(a, b) {
-      return a.name.localeCompare(b.name);
-    };
-    languages.sort(sort);
-    timezones.sort(sort);
-    countries.sort(sort);
-    res.render('index-settings', {
-      title: __('Settings'),
-      navbar: {
-        selected: 'settings'
-      },
-      sidebar: {
-        type: 'settings',
-        selected: 'settings'
-      },
-      errors: errors,
-      inputs: inputs,
-      languages: languages,
-      timezones: timezones,
-      countries: countries
-    });
+router.get('/', function(req, res) {
+  var errors = {};
+  var inputs = {};
+  if (req.session._form) {
+    errors = req.session._form.errors || {};
+    inputs = req.session._form.inputs || {};
+    delete req.session._form;
   }
-
-]);
+  inputs.email = inputs.email || req.user.email;
+  inputs.language = inputs.language || i18n.getSelectedLanguage(req);
+  inputs.timezone = inputs.timezone || req.user.timezone;
+  inputs.country = inputs.country || req.user.country;
+  var languages = Object.keys(i18n.languages).map(function(id) {
+    return {
+      id: id,
+      name: i18n.languages[id],
+      selected: id == inputs.language
+    };
+  });
+  var timezones = Object.keys(data.zones).map(function(id) {
+    return {
+      id: id,
+      name: data.zones[id].name,
+      selected: id == inputs.timezone
+    };
+  });
+  var countries = Object.keys(data.countries).map(function(id) {
+    return {
+      id: id,
+      name: data.countries[id].name,
+      selected: id == inputs.country
+    };
+  });
+  var sort = function(a, b) {
+    return a.name.localeCompare(b.name);
+  };
+  languages.sort(sort);
+  timezones.sort(sort);
+  countries.sort(sort);
+  res.render('index-settings', {
+    title: __('Settings'),
+    navbar: {
+      selected: 'settings'
+    },
+    sidebar: {
+      type: 'settings',
+      selected: 'settings'
+    },
+    errors: errors,
+    inputs: inputs,
+    languages: languages,
+    timezones: timezones,
+    countries: countries
+  });
+});
 
 router.post('/', [
-
-  // logged in users only
-  middlewares.isLoggedIn('/settings'),
 
   // handling file uploads
   multer({

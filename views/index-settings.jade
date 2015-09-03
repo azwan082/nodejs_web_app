@@ -59,20 +59,20 @@ block content
           div.form-group(class=errors.email ? 'has-error' : '')
             label.col-md-3.control-label= __('Email')
             div.col-md-9
-              input.form-control(type='email' name='email' value=inputs.email)
+              input.form-control(type='email' name='email' value=inputs.email maxlength='255')
               if errors.email
                 span.help-block= errors.email
           h3 Change password
           div.form-group(class=errors.currentPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('Current password')
             div.col-md-9
-              input.form-control(type='password' name='cpassword' max-length='32')
+              input.form-control(type='password' name='cpassword' maxlength='32')
               if errors.currentPassword
                 span.help-block= errors.currentPassword
           div.form-group(class=errors.newPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('New password')
             div.col-md-9
-              input.form-control(type='password' name='npassword' max-length='32')
+              input.form-control(type='password' name='npassword' maxlength='32')
               if errors.newPassword
                 span.help-block= errors.newPassword
           div.form-group

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var utils = require('../lib/utils');
 
 var schema = mongoose.Schema({
   token: {
@@ -10,18 +11,11 @@ var schema = mongoose.Schema({
 });
 
 schema.statics.generateRememberToken = function(user, done) {
-  var token = generateToken();
+  var token = utils.generateGUID();
   user.rememberToken = token;
   user.save(function(err) {
     done(err, token);
   });
 };
-
-function generateToken() {
-  var s4 = function () {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  };
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-}
 
 module.exports = mongoose.model('UserSession', schema);
