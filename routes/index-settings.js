@@ -132,7 +132,7 @@ router.post('/', [
     }
     validateAvatar(req, function(err, avatar) {
       if (err) {
-        errors.avatar = err;
+        errors.avatar = err.message || err;
       }
       if (Object.keys(errors).length === 0) {
         req.user.language = language;
@@ -173,8 +173,16 @@ router.post('/', [
 function validateAvatar(req, done) {
   var avatar = req.file || {};
   if (avatar.fieldname == 'avatar') {
+    
+    // delete uploaded file
+    var preDone = function(err, newAvatar) {
+      fs.remove(avatar.path, function(err) {
+        done(err, newAvatar);
+      });
+    };
+
     if (avatar.mimetype.indexOf('image/') !== 0) {
-      return done('Accept image file only');
+      return preDone('Accept image file only');
     }
 
     // only allow jpg & png
@@ -189,30 +197,30 @@ function validateAvatar(req, done) {
         break;
     }
     if (!ext) {
-      return done('Unsupported image type');
+      return preDone('Unsupported image type');
     }
 
     // get image dimension & validate size
     gm(avatar.path).size(function(err, value) {
       if (err) {
-        return done('Cannot get image dimension');
+        return preDone('Cannot get image dimension');
       }
       var w = value.width;
       var h = value.height;
       if (w > 1000 || h > 1000) {
-        return done('Image too large');
+        return preDone('Image too large');
       }
       
       // get/create avatar folder
       var meta = req.user.getAvatarMetadata(ext);
       fs.mkdirs(path.join(User.avatarPath, meta.folder), function(err) {
         if (err) {
-          return done(err);
+          return preDone(err);
         }
         
         var saved = function(err) {
           if (err) {
-            return done(err.message);
+            return preDone(err);
           }
 
           // update db, remove previous avatar
@@ -221,12 +229,12 @@ function validateAvatar(req, done) {
           if (currentAvatar) {
             return fs.remove(path.join(User.avatarPath, currentAvatar), function(err) {
               if (err) {
-                return done(err.message);
+                return preDone(err);
               }
-              done(null, newAvatar);
+              preDone(null, newAvatar);
             });
           }
-          done(null, newAvatar);
+          preDone(null, newAvatar);
         };
         
         // resize avatar image to 100 x 100, 
@@ -246,8 +254,9 @@ function validateAvatar(req, done) {
         gm(avatar.path).resize(nw, nh).crop(100, 100, x, y).write(dest, saved);
       });
     });
+  } else {
+    done();
   }
-  done();
 }
 
 module.exports = router;
