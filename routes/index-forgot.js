@@ -41,6 +41,12 @@ router.post('/', function(req, res) {
   else if (!iz.email(email)) {
     errors.email = 'Invalid email';
   }
+  if (req.xhr) {
+    return res.json({
+      status: 'ok',
+      errors: errors
+    });
+  }
   
   var onError = function(err) {
     if (err) {

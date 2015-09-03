@@ -17,6 +17,7 @@ What this package provide?
 - File uploads
 - Image processing using ImageMagick
 - Send email
+- Form ajax validation
 
 ## To get started:
 

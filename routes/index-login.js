@@ -97,25 +97,24 @@ router.post('/', [
       errors.password = 'Password too long';
     }
     if (req.xhr) {
-      res.json({
+      return res.json({
         status: 'ok',
         errors: errors
       });
+    }
+    if (Object.keys(errors).length === 0) {
+      req.session._form = {
+        remember: remember
+      };
+      next();
     } else {
-      if (Object.keys(errors).length === 0) {
-        req.session._form = {
-          remember: remember
-        };
-        next();
-      } else {
-        req.session._form = {
-          inputs: {
-            login: login
-          },
-          errors: errors
-        };
-        res.redirect('/login');
-      }
+      req.session._form = {
+        inputs: {
+          login: login
+        },
+        errors: errors
+      };
+      res.redirect('/login');
     }
   },
 

@@ -135,42 +135,41 @@ router.post('/', [
         errors.avatar = err.message || err;
       }
       if (req.xhr) {
-        res.json({
+        return res.json({
           status: 'ok',
           errors: errors
         });
-      } else {
-        if (Object.keys(errors).length === 0) {
-          req.user.language = language;
-          req.user.timezone = timezone;
-          req.user.country = country;
-          req.user.email = email;
-          if (newPassword) {
-            req.user.password = User.hashPassword(password);
-          }
-          if (avatar) {
-            req.user.avatar = avatar;
-          }
-          req.user.save(function(err) {
-            if (err) {
-              req.flash('error', 'Failed to save changes');
-            } else {
-              req.flash('info', 'Settings saved');
-            }
-            res.redirect('/settings');
-          });
-        } else {
-          req.session._form = {
-            errors: errors,
-            inputs: {
-              language: language,
-              timezone: timezone,
-              country: country,
-              email: email
-            }
-          };
-          res.redirect('/settings');
+      }
+      if (Object.keys(errors).length === 0) {
+        req.user.language = language;
+        req.user.timezone = timezone;
+        req.user.country = country;
+        req.user.email = email;
+        if (newPassword) {
+          req.user.password = User.hashPassword(password);
         }
+        if (avatar) {
+          req.user.avatar = avatar;
+        }
+        req.user.save(function(err) {
+          if (err) {
+            req.flash('error', 'Failed to save changes');
+          } else {
+            req.flash('info', 'Settings saved');
+          }
+          res.redirect('/settings');
+        });
+      } else {
+        req.session._form = {
+          errors: errors,
+          inputs: {
+            language: language,
+            timezone: timezone,
+            country: country,
+            email: email
+          }
+        };
+        res.redirect('/settings');
       }
     });
   }

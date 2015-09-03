@@ -84,23 +84,22 @@ router.post('/', [
       errors.agree = true;
     }
     if (req.xhr) {
-      res.json({
+      return res.json({
         status: 'ok',
         errors: errors
       });
+    }
+    if (Object.keys(errors).length === 0) {
+      next();
     } else {
-      if (Object.keys(errors).length === 0) {
-        next();
-      } else {
-        req.session._form = {
-          inputs: {
-            username: username,
-            email: email
-          },
-          errors: errors
-        };
-        res.redirect('/register');
-      }
+      req.session._form = {
+        inputs: {
+          username: username,
+          email: email
+        },
+        errors: errors
+      };
+      res.redirect('/register');
     }
   },
 
