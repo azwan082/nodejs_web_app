@@ -13,24 +13,22 @@ block content
       div.col-md-9
         include _flash
         h1= __('Login')
-        form.form-horizontal(action='/login' + (inputs.rd ? '?rd=' + encodeURIComponent(inputs.rd) : '') method='post')
-          div.form-group(class=errors.login ? 'has-error' : '')
+        form#form.form-horizontal(action='/login' + (inputs.rd ? '?rd=' + encodeURIComponent(inputs.rd) : '') method='post')
+          div#login.form-group(class=errors.login ? 'has-error' : '')
             label.col-md-3.control-label= __('Login')
             div.col-md-9
               input.form-control(type='text' name='login' maxlength='255' value=(inputs.login || '') placeholder='Username or email')
-              if errors.login
-                span.help-block= errors.login
-          div.form-group(class=errors.password ? ' has-error' : '')
+              span.help-block(class=errors.login ? '' : 'hidden')= errors.login
+          div#password.form-group(class=errors.password ? ' has-error' : '')
             label.col-md-3.control-label= __('Password')
             div.col-md-9
               input.form-control(type='password' name='password' maxlength='32')
-              if errors.password
-                span.help-block= errors.password
-          div.form-group
+              span.help-block(class=errors.password ? '' : 'hidden')= errors.password
+          div#remember.form-group
             div.col-md-offset-3.col-md-9
               div.checkbox
                 label
-                  input(type='checkbox' name='remember' value='1')
+                  input#remember(type='checkbox' name='remember' value='1')
                   = __('Remember me')
           div.form-group
             div.col-md-offset-3.col-md-9
@@ -41,3 +39,6 @@ block content
       div.col-md-3
         include _sidebar
     include _footer
+
+block scripts
+  script(src='/js/index-login.js')

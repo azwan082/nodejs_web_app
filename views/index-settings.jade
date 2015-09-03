@@ -26,32 +26,28 @@ block content
               select.form-control(name='language')
                 each language in languages
                   +select-option(language.id, language.selected, language.name)
-              if errors.language
-                span.help-block= errors.language
+              span.help-block(class=errors.language ? '' : 'hidden')= errors.language
           div.form-group(class=errors.country ? 'has-error' : '')
             label.col-md-3.control-label= __('Country')
             div.col-md-9
               select.form-control(name='country')
                 each country in countries
                   +select-option(country.id, country.selected, country.name)
-              if errors.country
-                span.help-block= errors.country
+              span.help-block(class=errors.country ? '' : 'hidden')= errors.country
           div.form-group(class=errors.timezone ? 'has-error' : '')
             label.col-md-3.control-label= __('Timezone')
             div.col-md-9
               select.form-control(name='timezone')
                 each zone in timezones
                   +select-option(zone.id, zone.selected, zone.name)
-              if errors.timezone
-                span.help-block= errors.timezone
+              span.help-block(class=errors.timezone ? '' : 'hidden')= errors.timezone
           h3 Account
           div.form-group(class=errors.avatar ? 'has-error' : '')
             label.col-md-3.control-label= __('Avatar')
             div.col-md-9
               img.img-thumbnail(src=user.getAvatarUrl() width='100' height='100')
               input(type='file' name='avatar')
-              if errors.avatar
-                span.help-block= errors.avatar
+              span.help-block(class=errors.avatar ? '' : 'hidden')= errors.avatar
           div.form-group
             label.col-md-3.control-label= __('Username')
             div.col-md-9
@@ -60,21 +56,18 @@ block content
             label.col-md-3.control-label= __('Email')
             div.col-md-9
               input.form-control(type='email' name='email' value=inputs.email maxlength='255')
-              if errors.email
-                span.help-block= errors.email
+              span.help-block(class=errors.email ? '' : 'hidden')= errors.email
           h3 Change password
           div.form-group(class=errors.currentPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('Current password')
             div.col-md-9
               input.form-control(type='password' name='cpassword' maxlength='32')
-              if errors.currentPassword
-                span.help-block= errors.currentPassword
+              span.help-block(class=errors.currentPassword ? '' : 'hidden')= errors.currentPassword
           div.form-group(class=errors.newPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('New password')
             div.col-md-9
               input.form-control(type='password' name='npassword' maxlength='32')
-              if errors.newPassword
-                span.help-block= errors.newPassword
+              span.help-block(class=errors.newPassword ? '' : 'hidden')= errors.newPassword
           div.form-group
             div.col-md-offset-3.col-md-9
               button.btn.btn-primary(type='submit')= __('Save')
