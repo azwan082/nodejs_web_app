@@ -19,22 +19,22 @@ block content
       div.col-md-9
         include _flash
         h1= title
-        form.form-horizontal(action=('/settings') method='post' enctype='multipart/form-data')
-          div.form-group(class=errors.language ? 'has-error' : '')
+        form#form.form-horizontal(action=('/settings') method='post' enctype='multipart/form-data')
+          div#language.form-group(class=errors.language ? 'has-error' : '')
             label.col-md-3.control-label= __('Language')
             div.col-md-9
               select.form-control(name='language')
                 each language in languages
                   +select-option(language.id, language.selected, language.name)
               span.help-block(class=errors.language ? '' : 'hidden')= errors.language
-          div.form-group(class=errors.country ? 'has-error' : '')
+          div#country.form-group(class=errors.country ? 'has-error' : '')
             label.col-md-3.control-label= __('Country')
             div.col-md-9
               select.form-control(name='country')
                 each country in countries
                   +select-option(country.id, country.selected, country.name)
               span.help-block(class=errors.country ? '' : 'hidden')= errors.country
-          div.form-group(class=errors.timezone ? 'has-error' : '')
+          div#timezone.form-group(class=errors.timezone ? 'has-error' : '')
             label.col-md-3.control-label= __('Timezone')
             div.col-md-9
               select.form-control(name='timezone')
@@ -52,18 +52,18 @@ block content
             label.col-md-3.control-label= __('Username')
             div.col-md-9
               input.form-control(type='text' value=user.name readonly)
-          div.form-group(class=errors.email ? 'has-error' : '')
+          div#email.form-group(class=errors.email ? 'has-error' : '')
             label.col-md-3.control-label= __('Email')
             div.col-md-9
               input.form-control(type='email' name='email' value=inputs.email maxlength='255')
               span.help-block(class=errors.email ? '' : 'hidden')= errors.email
           h3 Change password
-          div.form-group(class=errors.currentPassword ? 'has-error' : '')
+          div#cpassword.form-group(class=errors.currentPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('Current password')
             div.col-md-9
               input.form-control(type='password' name='cpassword' maxlength='32')
               span.help-block(class=errors.currentPassword ? '' : 'hidden')= errors.currentPassword
-          div.form-group(class=errors.newPassword ? 'has-error' : '')
+          div#npassword.form-group(class=errors.newPassword ? 'has-error' : '')
             label.col-md-3.control-label= __('New password')
             div.col-md-9
               input.form-control(type='password' name='npassword' maxlength='32')
@@ -74,3 +74,6 @@ block content
       div.col-md-3
         include _sidebar
     include _footer
+
+block scripts
+  script(src='/js/index-settings.js')
