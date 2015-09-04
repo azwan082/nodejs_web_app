@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     // start mongodb
     shell: {
       mongodb: {
-        command: 'mongod --config ~/Applications/etc/mongod.conf'
+        command: 'mongod.sh'
       }
     },
 

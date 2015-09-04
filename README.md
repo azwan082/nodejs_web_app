@@ -1,6 +1,6 @@
-## NodeJS Web Application starter
+# NodeJS Web Application starter
 
-What this package provide?
+## What this package provide?
 
 - Gruntfile
 - MongoDB database
@@ -27,7 +27,10 @@ Install dependencies using Homebrew:
 - MongoDB (`brew install mongodb24`)
 - ImageMagick (`brew install imagemagick`)
 
-Note: Homebrew is installed at ~/Applications/opt/, `brew` is symlinked to ~/Applications/bin/ and this directory was added to PATH through ~/.bash_profile
+MongoDB note: Create a bash script `mongod.sh` in directory included in PATH (e.g /usr/local/bin), and specify how mongod is executed. E.g:
+
+    #!/bin/bash
+    mongod --config ~/Applications/etc/mongod.conf
 
 Setup project:
 
