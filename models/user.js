@@ -14,7 +14,6 @@ var schema = mongoose.Schema({
     unique: true
   },
   password: String,
-  rememberToken: String,
   language: String,
   country: String,
   timezone: String,

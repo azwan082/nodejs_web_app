@@ -12,10 +12,13 @@ var schema = mongoose.Schema({
 
 schema.statics.generateRememberToken = function(user, done) {
   var token = utils.generateGUID();
-  user.rememberToken = token;
-  user.save(function(err) {
+  var session = new UserSession({
+    token: token,
+    userId: user.id
+  });
+  session.save(function(err) {
     done(err, token);
   });
 };
 
-module.exports = mongoose.model('UserSession', schema);
+module.exports = UserSession = mongoose.model('UserSession', schema);

@@ -14,5 +14,11 @@
   "Email": "Email",
   "Current password": "Current password",
   "New password": "New password",
-  "Save": "Save"
+  "Save": "Save",
+  "Login": "Login",
+  "Username or email": "Username or email",
+  "Password": "Password",
+  "Remember me": "Remember me",
+  "Forgot password?": "Forgot password?",
+  "Register": "Register"
 }
