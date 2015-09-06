@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var util = require('util');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -81,27 +82,21 @@ app.use('/admin', admin);
 app.use(function(req, res, next) {
   var err = new Error(__('Not Found'));
   err.status = 404;
+  err.content = util.format('<a href="/">%s</a>', __('Go home'));
   next(err);
 });
 
-// development error handler, will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    console.log('err = ' + err);
-    res.status(err.status || 500);
-    res.render('_error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
+// development error handler, will print stacktrace,
 // production error handler, no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log('err = ' + err.message);
   res.status(err.status || 500);
   res.render('_error', {
-    message: err.message,
-    error: {}
+    title: err.message,
+    msg: err.message,
+    error: (app.get('env') === 'development' ? err : {}),
+    content: err.content,
+    navbar: {}
   });
 });
 

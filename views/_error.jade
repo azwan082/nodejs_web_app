@@ -1,7 +1,11 @@
 extends _layout
 
 block content
+  include _navbar
   div.container
-    h1= message
+    include _flash
+    h1= msg
     h2= error.status
+    p!= content
     pre #{error.stack}
+    include _footer
