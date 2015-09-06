@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
     delete req.session._form;
   }
   inputs.email = inputs.email || req.user.email;
-  inputs.language = inputs.language || i18n.getSelectedLanguage(req);
+  inputs.language = inputs.language || req.user.language || i18n.getSelectedLanguage(req);
   inputs.timezone = inputs.timezone || req.user.timezone;
   inputs.country = inputs.country || req.user.country;
   var languages = Object.keys(i18n.languages).map(function(id) {
@@ -141,6 +141,7 @@ router.post('/', [
         });
       }
       if (Object.keys(errors).length === 0) {
+        i18n.setSelectedLanguage(res, language);
         req.user.language = language;
         req.user.timezone = timezone;
         req.user.country = country;

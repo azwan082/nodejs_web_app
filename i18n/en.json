@@ -29,5 +29,12 @@
   "Send": "Send",
   "Reset password": "Reset password",
   "To reset your password, go to this link:": "To reset your password, go to this link:",
-  "Wrong password": "Wrong password"
+  "Wrong password": "Wrong password",
+  "Username or email": "Username or email",
+  "Username is required": "Username is required",
+  "Email is required": "Email is required",
+  "Password is required": "Password is required",
+  "Login ID is required": "Login ID is required",
+  "You are now logged in": "You are now logged in",
+  "You are now logged out": "You are now logged out"
 }

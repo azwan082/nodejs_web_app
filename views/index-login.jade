@@ -17,7 +17,7 @@ block content
           div#login.form-group(class=errors.login ? 'has-error' : '')
             label.col-md-3.control-label= __('Login')
             div.col-md-9
-              input.form-control(type='text' name='login' maxlength='255' value=(inputs.login || '') placeholder='Username or email')
+              input.form-control(type='text' name='login' maxlength='255' value=(inputs.login || '') placeholder=__('Username or email'))
               span.help-block(class=errors.login ? '' : 'hidden')= errors.login
           div#password.form-group(class=errors.password ? ' has-error' : '')
             label.col-md-3.control-label= __('Password')

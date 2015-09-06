@@ -36,10 +36,10 @@ router.post('/', function(req, res) {
   var email = req.body.email || '';
   var errors = {};
   if (email.length === 0) {
-    errors.email = 'Email is required';
+    errors.email = __('Email is required');
   }
   else if (!iz.email(email)) {
-    errors.email = 'Invalid email';
+    errors.email = __('Invalid email');
   }
   if (req.xhr) {
     return res.json({
@@ -66,7 +66,7 @@ router.post('/', function(req, res) {
         return onError(err);
       }
       if (!user)  {
-        return onError('User not found');
+        return onError(__('User not found'));
       }
       var resetKey = utils.md5(utils.generateGUID() + user.id);
       user.reset = {
@@ -86,7 +86,7 @@ router.post('/', function(req, res) {
         mailer.sendMail({
           from: 'noreply@localhost',
           to: email,
-          subject: 'Reset password',
+          subject: __('Reset password'),
           html: html
         }, function(err, info) {
           if (err) {
@@ -97,7 +97,7 @@ router.post('/', function(req, res) {
               sent: true
             }
           };
-          req.flash('success', 'Email sent');
+          req.flash('success', __('Email sent'));
           res.redirect('/forgot');
         });
       });

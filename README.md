@@ -27,7 +27,7 @@ Install dependencies using Homebrew:
 - MongoDB (`brew install mongodb24`)
 - ImageMagick (`brew install imagemagick`)
 
-MongoDB note: Create a bash script `mongod.sh` in directory included in PATH (e.g /usr/local/bin), and specify how mongod is executed. E.g:
+MongoDB note: Create a bash script `mongod.sh` in directory included in PATH (e.g /usr/local/bin), and specify how mongod is started. E.g:
 
     #!/bin/bash
     mongod --config ~/Applications/etc/mongod.conf

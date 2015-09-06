@@ -11,10 +11,10 @@ router.get('/', function(req, res) {
   if (req.user) {
     if (req.session._form) {
       delete req.session._form;
-      req.flash('success', 'Account successfully created');
-      req.flash('info', 'You are now logged in');
+      req.flash('success', __('Account successfully created'));
+      req.flash('info', __('You are now logged in'));
     } else {
-      req.flash('warning', 'You are already registered');
+      req.flash('warning', __('You are already registered'));
     }
     return res.redirect('/dashboard');
   }
@@ -55,30 +55,30 @@ router.post('/', [
     var errors = {};
     if (username.length < 3) {
       if (username.length === 0) {
-        errors.username = 'Username is required';
+        errors.username = __('Username is required');
       } else {
-        errors.username = 'Username too short';
+        errors.username = __('Username too short');
       }
     }
     else if (username.length > 64) {
-      errors.username = 'Username too long';
+      errors.username = __('Username too long');
     }
     if (email.length === 0) {
-      errors.email = 'Email is required';
+      errors.email = __('Email is required');
     } else {
       if (!iz.email(email)) {
-        errors.email = 'Invalid email';
+        errors.email = __('Invalid email');
       }
     }
     if (password.length < 5) {
       if (password.length === 0) {
-        errors.password = 'Password is required';
+        errors.password = __('Password is required');
       } else {
-        errors.password = 'Password too short';
+        errors.password = __('Password too short');
       }
     }
     else if (password.length > 32) {
-      errors.password = 'Password too long';
+      errors.password = __('Password too long');
     }
     if (!agree) {
       errors.agree = true;

@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
   }
   inputs.key = key;
   if (key.length === 0) {
-    req.flash('danger', 'Reset key is missing');
+    req.flash('danger', __('Reset key is missing'));
   }
   res.render('index-reset', {
     title: __('Reset password'),
@@ -42,20 +42,20 @@ router.post('/', function(req, res) {
     return res.redirect('/reset');
   }
   if (email.length === 0) {
-    errors.email = 'Email is required';
+    errors.email = __('Email is required');
   }
   else if (!iz.email(email)) {
-    errors.email = 'Invalid email';
+    errors.email = __('Invalid email');
   }
   if (newPassword.length < 5) {
     if (newPassword.length === 0) {
-      errors.npassword = 'Password is required';
+      errors.npassword = __('Password is required');
     } else {
-      errors.npassword = 'Password too short';
+      errors.npassword = __('Password too short');
     }
   }
   else if (newPassword.length > 32) {
-    errors.npassword = 'Password too long';
+    errors.npassword = __('Password too long');
   }
 
   var onError = function(err) {
@@ -79,13 +79,13 @@ router.post('/', function(req, res) {
         return onError(err);
       }
       if (!user) {
-        return onError('User not found');
+        return onError(__('User not found'));
       }
       if (key != user.reset.key) {
-        return onError('Invalid reset key');
+        return onError(__('Invalid reset key'));
       }
       if ((Date.now() - user.reset.created.getTime()) > 86400000) { // 1d
-        return onError('Invalid reset key');
+        return onError(__('Invalid reset key'));
       }
       user.password = User.hashPassword(newPassword);
       user.reset = {};
@@ -93,7 +93,7 @@ router.post('/', function(req, res) {
         if (err) {
           return onError(err);
         }
-        req.flash('success', 'Password has been reset, you may login now');
+        req.flash('success', __('Password has been reset, you may login now'));
         res.redirect('/login');
       });
     });

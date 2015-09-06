@@ -1,1 +1,18 @@
-{}
+{
+  "Home": "Rumah",
+  "Website": "Website",
+  "Dashboard": "Dashboard",
+  "Settings": "Settings",
+  "Logout": "Logout",
+  "%s Company %s": "%s Company %s",
+  "Home page": "Home page",
+  "Language": "Language",
+  "Country": "Country",
+  "Timezone": "Timezone",
+  "Avatar": "Avatar",
+  "Username": "Username",
+  "Email": "Email",
+  "Current password": "Current password",
+  "New password": "New password",
+  "Save": "Save"
+}
