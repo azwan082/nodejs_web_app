@@ -104,29 +104,29 @@ router.post('/', [
     var newPassword = req.body.npassword || '';
     var errors = {};
     if (Object.keys(i18n.languages).indexOf(language) == -1) {
-      errors.language = 'Invalid language';
+      errors.language = __('Invalid language');
     }
     if (Object.keys(data.zones).indexOf(timezone) == -1) {
-      errors.timezone = 'Invalid timezone';
+      errors.timezone = __('Invalid timezone');
     }
     if (Object.keys(data.countries).indexOf(country) == -1) {
-      errors.country = 'Invalid country';
+      errors.country = __('Invalid country');
     }
     if (email.length === 0) {
-      errors.email = 'Email is required';
+      errors.email = __('Email is required');
     }
     else if (!iz.email(email)) {
-      errors.email = 'Invalid email';
+      errors.email = __('Invalid email');
     }
     if (newPassword.length) {
       if (req.user.isValidPassword(currentPassword)) {
-        errors.currentPassword = 'Wrong password';
+        errors.currentPassword = __('Wrong password');
       } else {
         if (newPassword.length < 5) {
-          errors.newPassword = 'New password too short';
+          errors.newPassword = __('New password too short');
         }
         else if (newPassword.length > 32) {
-          errors.newPassword = 'New password too long';
+          errors.newPassword = __('New password too long');
         }
       }
     }
@@ -154,9 +154,9 @@ router.post('/', [
         }
         req.user.save(function(err) {
           if (err) {
-            req.flash('error', 'Failed to save changes');
+            req.flash('error', __('Failed to save changes'));
           } else {
-            req.flash('info', 'Settings saved');
+            req.flash('info', __('Settings saved'));
           }
           res.redirect('/settings');
         });
@@ -189,7 +189,7 @@ function validateAvatar(req, done) {
     };
 
     if (avatar.mimetype.indexOf('image/') !== 0) {
-      return preDone('Accept image file only');
+      return preDone(__('Accept image file only'));
     }
 
     // only allow jpg & png
@@ -204,13 +204,13 @@ function validateAvatar(req, done) {
         break;
     }
     if (!ext) {
-      return preDone('Unsupported image type');
+      return preDone(__('Unsupported image type'));
     }
 
     // get image dimension & validate size
     gm(avatar.path).size(function(err, value) {
       if (err) {
-        return preDone('Cannot get image dimension');
+        return preDone(__('Cannot get image dimension'));
       }
       var w = value.width;
       var h = value.height;
