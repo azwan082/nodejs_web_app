@@ -15,6 +15,7 @@ var i18n = require('./lib/i18n');
 var __ = i18n.__;
 
 var index = require('./routes/index');
+var admin = require('./routes/admin');
 
 // setup
 var app = express();
@@ -74,6 +75,7 @@ if (app.get('env') === 'development') {
 
 // routes
 app.use('/', index);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

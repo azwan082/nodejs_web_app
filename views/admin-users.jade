@@ -1,0 +1,20 @@
+extends _layout
+
+block content
+  include _navbar
+  div.container
+    div.row
+      o.breadcrumb
+        li
+          a(href='/')= __('Home')
+        li
+          a(href='/admin')= __('Admin')
+        li.active= __('Users')
+  div.container
+    div.row
+      div.col-md-9
+        include _flash
+        h1= __('Users')
+      div.col-md-3
+        include _sidebar
+      include _footer

@@ -6,3 +6,7 @@ if sidebar.type == 'settings'
   div.list-group
     a.list-group-item(class=(sidebar.selected == 'dashboard' ? 'active' : '') href='/dashboard')= __('Dashboard')
     a.list-group-item(class=(sidebar.selected == 'settings' ? 'active' : '') href='/settings')= __('Settings')
+if sidebar.type == 'admin'
+  div.list-group
+    a.list-group-item(class=(sidebar.selected == 'overview' ? 'active' : '') href='/admin')= __('Overview')
+    a.list-group-item(class=(sidebar.selected == 'users' ? 'active' : '') href='/admin/users')= __('Users')

@@ -21,7 +21,8 @@ var schema = mongoose.Schema({
   reset: {
     key: String,
     created: Date
-  }
+  },
+  group: String
 });
 
 schema.methods.isValidPassword = function(password) {

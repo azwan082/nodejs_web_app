@@ -36,5 +36,10 @@
   "Password is required": "Password is required",
   "Login ID is required": "Login ID is required",
   "You are now logged in": "You are now logged in",
-  "You are now logged out": "You are now logged out"
+  "You are now logged out": "You are now logged out",
+  "Admin": "Admin",
+  "Admin section": "Admin section",
+  "Overview": "Overview",
+  "Users": "Users",
+  "Account successfully created": "Account successfully created"
 }
