@@ -40,6 +40,21 @@ module.exports = function(grunt) {
       }
     },
 
+    // jade
+    jade: {
+      template: {
+        options: {
+          client: true,
+          namespace: 'views'
+        },
+        expand: true,
+        cwd: 'views/',
+        src: '__*.jade',
+        dest: 'public/dist/js/views/',
+        ext: '.js'
+      }
+    },
+
     // start mongodb
     shell: {
       mongodb: {
@@ -67,7 +82,8 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
       jade: {
-        files: ['views/**/*.jade']
+        files: ['views/**/*.jade'],
+        tasks: ['jade']
       }
     },
 
@@ -93,12 +109,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-shell');
 
   // register tasks
-  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'concurrent']);
-  grunt.registerTask('deploy', ['uglify', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'jade', 'concurrent']);
+  grunt.registerTask('deploy', ['uglify', 'cssmin', 'jade']);
 
 };

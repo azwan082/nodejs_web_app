@@ -1,0 +1,9 @@
+//- var users = []
+table
+  each user in users
+    tr
+      td
+        p= user.name
+      td
+        a.btn.btn-default(href='/admin/users?id=' + user.id) Edit
+        a.btn.btn-danger(href='/admin/users') Delete

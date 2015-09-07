@@ -18,6 +18,7 @@
 - Image processing using ImageMagick
 - Send email
 - Form ajax validation
+- Client-side templating using Jade
 
 ## To get started:
 
