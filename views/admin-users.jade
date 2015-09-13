@@ -15,6 +15,15 @@ block content
       div.col-md-9
         include _flash
         h1= __('Users')
+        div
+          a.btn.btn-default(href='/admin/users/create') Create user
+          div.pull-right
+            form.form-inline(action='/admin/users')
+              div.input-group
+                input.form-control(type='search' name='q' value=keyword placeholder='Search')
+                span.input-group-btn
+                  button.btn.btn-default(type='submit')
+                    span.glyphicon.glyphicon-search
         table.table.table-striped.table-hover
           tr
             th

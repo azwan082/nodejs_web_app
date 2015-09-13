@@ -30,10 +30,7 @@ schema.methods.isValidPassword = function(password) {
 };
 
 schema.methods.getAvatarUrl = function() {
-  if (this.avatar) {
-    return '/img/avatar/' + this.avatar;
-  }
-  return 'http://placehold.it/100x100';
+  return '/img/avatar/' + (this.avatar || 'square.png');
 };
 
 schema.methods.getAvatarMetadata = function(ext) {

@@ -1,5 +1,6 @@
 var express = require('express');
 var __ = require('i18n').__;
+var usersForm = require('./admin-users-form');
 var utils = require('../lib/utils');
 var middlewares = require('../lib/middlewares');
 var User = require('../models/user');
@@ -8,14 +9,25 @@ var perPage = 5;
 
 router.use(middlewares.mustInGroup(['admin']));
 
-// TODO
-// router.use('/create', userAdd);
-// router.use('/:userId', userEdit);
+router.use('/create', usersForm);
+router.use('/:userId', usersForm);
 
 router.get('/', function(req, res) {
   var pageNum = parseInt(req.query.pg) || 1;
-  User.count(function(err, totalItem) {
-    User.find()
+  var keyword = req.query.q || '';
+  var findArg;
+  if (keyword) {
+    if (keyword.length >= 2 && keyword.length < 32) {
+      findArg = {
+        name: new RegExp(keyword, 'g')
+      };
+    } else {
+      keyword = null;
+      req.flash('warning', 'Search keyword too short');
+    }
+  }
+  User.count(findArg, function(err, totalItem) {
+    User.find(findArg)
     .select('name email group avatar')
     .limit(perPage)
     .skip(perPage * (pageNum - 1))
@@ -33,11 +45,12 @@ router.get('/', function(req, res) {
           selected: 'users'
         },
         paginate: utils.paginate({
-          url: '/admin/users?pg=%d',
+          url: '/admin/users?pg=%d' + (keyword ? '&q=' + encodeURIComponent(keyword) : ''),
           totalItem: totalItem,
           perPage: perPage,
           currentPage: pageNum
         }),
+        keyword: keyword,
         users: users || []
       });
     });
