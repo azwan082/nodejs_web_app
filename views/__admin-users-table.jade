@@ -1,9 +1,8 @@
-//- var users = []
-table
-  each user in users
-    tr
-      td
-        p= user.name
-      td
-        a.btn.btn-default(href='/admin/users?id=' + user.id) Edit
-        a.btn.btn-danger(href='/admin/users') Delete
+tr
+  td
+    img.img-thumbnail(src=user.getAvatarUrl() width='50' height='50')
+  td= user.name
+  td= user.email
+  td= user.group
+  td
+    a(href='/admin/users/' + user.id) Edit

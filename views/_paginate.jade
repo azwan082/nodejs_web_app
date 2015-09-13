@@ -1,0 +1,43 @@
+- var totalPage = Math.ceil(paginate.totalItem / paginate.perPage)
+- var midRange = paginate.midRange || 5;
+if totalPage > 1
+  - var startRange = paginate.currentPage - Math.floor(midRange / 2)
+  - var endRange = paginate.currentPage + Math.floor(midRange / 2)
+  if startRange <= 0
+    - endRange += Math.abs(startRange) + 1
+    - startRange = 1
+  if endRange > totalPage
+    - startRange -= (endRange - totalPage)
+    - endRange = totalPage
+  - var range = {}
+  - Array.apply(null, Array(endRange - startRange + 1)).map(function(a, b) { return b + startRange; }).forEach(function(a, b) { range[a] = b; })
+  nav
+    ul.pagination
+      if (paginate.currentPage == 1)
+        li.disabled
+          span!= '&laquo; Prev'
+      else
+        li
+          a(href=paginate.format(paginate.url, paginate.currentPage - 1))!= '&laquo; Prev'
+      - var i = 1
+      while i <= totalPage
+        if startRange > 2 && i == startRange
+          li.disabled
+            span ...  
+        if i == 1 || i == totalPage || range[i] !== undefined
+          if (i == paginate.currentPage)
+            li.active
+              a(href=paginate.format(paginate.url, i))= i
+          else
+            li
+              a(href=paginate.format(paginate.url, i))= i
+        if totalPage > range[midRange - 1] && i == range[midRange - 1]
+          li.disabled
+            span ...
+        - i++
+      if paginate.currentPage == totalPage
+        li.disabled
+          span!= 'Next &raquo;'
+      else
+        li
+          a(href=paginate.format(paginate.url, paginate.currentPage + 1))!= 'Next &raquo;'

@@ -15,9 +15,19 @@ block content
       div.col-md-9
         include _flash
         h1= __('Users')
+        table.table.table-striped.table-hover
+          tr
+            th
+            th Username
+            th Email
+            th Group
+            th Options
+          each user in users
+            include __admin-users-table
+        include _paginate
       div.col-md-3
         include _sidebar
-      include _footer
+    include _footer
 
 block scripts
   script(src='/jade/runtime.js')
