@@ -35,24 +35,36 @@ router.get('/', function(req, res) {
       name: 1
     })
     .exec(function(err, users) {
-      res.render('admin-users', {
-        title: __('Users'),
-        navbar: {
-          selected: 'admin'
-        },
-        sidebar: {
-          type: 'admin',
-          selected: 'users'
-        },
-        paginate: utils.paginate({
-          url: '/admin/users?pg=%d' + (keyword ? '&q=' + encodeURIComponent(keyword) : ''),
-          totalItem: totalItem,
-          perPage: perPage,
-          currentPage: pageNum
-        }),
-        keyword: keyword,
-        users: users || []
-      });
+      if (req.xhr) {
+        res.json({
+          status: 'ok',
+          users: users,
+          paginate: {
+            totalItem: totalItem,
+            perPage: perPage,
+            currentPage: pageNum
+          }
+        });
+      } else {
+        res.render('admin-users', {
+          title: __('Users'),
+          navbar: {
+            selected: 'admin'
+          },
+          sidebar: {
+            type: 'admin',
+            selected: 'users'
+          },
+          paginate: utils.paginate({
+            url: '/admin/users?pg=%d' + (keyword ? '&q=' + encodeURIComponent(keyword) : ''),
+            totalItem: totalItem,
+            perPage: perPage,
+            currentPage: pageNum
+          }),
+          keyword: keyword,
+          users: users || []
+        });
+      }
     });
   });
 });
