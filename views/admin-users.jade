@@ -25,14 +25,16 @@ block content
                   button.btn.btn-default(type='submit')
                     span.glyphicon.glyphicon-search
         table.table.table-striped.table-hover
-          tr
-            th
-            th Username
-            th Email
-            th Group
-            th Options
-          each user in users
-            include __admin-users-table
+          thead
+            tr
+              th
+              th Username
+              th Email
+              th Group
+              th Options
+          tbody#table-body
+            each user in users
+              include __admin-users-table
         include _paginate
       div.col-md-3
         include _sidebar
